@@ -428,14 +428,14 @@ function OPTIONS:search(keyword, flags)
 
             local options_spec = ""
 
-            if type == "Choice" then
-                options_spec = "    [ " .. choices .. ' ]'
-            elseif type == "Integer"
+            if type == "Integer"
             or type == "ByteSize"
             or type == "Float"
             or type == "Aspect"
             or type == "Double" then
                 options_spec = "    [ "..mp.get_property_number('option-info/'..option..'/min', "").."  -  ".. mp.get_property_number("option-info/"..option..'/max', "").." ]"
+            elseif choices ~= "" then
+                options_spec = "    [ " .. choices .. ' ]'
             end
 
             local result = o.ass_options..self.ass_escape(option).."  "..o.ass_optionstype..type..first_space..o.ass_optvalue..self.ass_escape(opt_value)
