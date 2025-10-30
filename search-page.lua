@@ -456,10 +456,15 @@ function PROPERTIES:search(keyword, flags)
     local properties = mp.get_property_native('property-list', {})
 
     for _,property in ipairs(properties) do
-        if compare(property, keyword, flags) then
+        local values = mp.get_property(property, "")
+        
+        if
+        compare(property, keyword, flags)
+        or compare(values, keyword, flags)
+        then
             self:insert({
                 type = "property",
-                ass = o.ass_properties..self.ass_escape(property)..return_spaces(property:len(), 40)..o.ass_propertycurrent..self.ass_escape(mp.get_property(property, "")),
+                ass = o.ass_properties..self.ass_escape(property)..return_spaces(property:len(), 40)..o.ass_propertycurrent..self.ass_escape(values),
                 funct = function()
                     mp.commandv('script-message-to', 'console', 'type', 'print-text ${'.. property .. "} ")
                     self:close()
