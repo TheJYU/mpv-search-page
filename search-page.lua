@@ -57,6 +57,8 @@ local o = {
     --there seems to be a significant performance hit from having lots of text off the screen
     max_list = 20,
 
+    wrap = false,
+
     --number of pixels to pan on each click
     --this refers to the horizontal panning
     pan_speed = 100,
@@ -108,6 +110,7 @@ list_meta.wrapper_style = o.ass_footer
 list_meta.indent = [[\h\h\h]]
 list_meta.num_entries = o.max_list
 list_meta.empty_text = "no results"
+list_meta.wrap = o.wrap
 
 local CURRENT_PAGE = nil
 local LATEST_SEARCH = {
