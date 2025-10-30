@@ -366,26 +366,27 @@ function COMMANDS:search(keyword, flags)
     local commands = mp.get_property_native('command-list')
 
     for _,command in ipairs(commands) do
+        local cmd = command.name
+        local result_no_ass = cmd
+
+        local arg_string = ""
+
+        for _,arg in ipairs(command.args) do
+            if arg.optional then
+                arg_string = arg_string .. o.ass_optargs
+                result_no_ass = result_no_ass .. " "
+            else
+                result_no_ass = result_no_ass .. " !"
+                arg_string = arg_string .. o.ass_args
+            end
+            result_no_ass = result_no_ass .. arg.name .. "("..arg.type..") "
+            arg_string = arg_string .. " " .. arg.name .. o.ass_argtype.." ("..arg.type..") "
+        end
+        
         if
         compare(command.name, keyword, flags)
+        or compare(result_no_ass, keyword, flags)
         then
-            local cmd = command.name
-            local result_no_ass = cmd
-
-            local arg_string = ""
-
-            for _,arg in ipairs(command.args) do
-                if arg.optional then
-                    arg_string = arg_string .. o.ass_optargs
-                    result_no_ass = result_no_ass .. " "
-                else
-                    result_no_ass = result_no_ass .. " !"
-                    arg_string = arg_string .. o.ass_args
-                end
-                result_no_ass = result_no_ass .. arg.name .. "("..arg.type..") "
-                arg_string = arg_string .. " " .. arg.name .. o.ass_argtype.." ("..arg.type..") "
-            end
-
             self:insert({
                 type = "command",
                 ass = o.ass_cmd..self.ass_escape(cmd)..return_spaces(cmd:len(), 20)..arg_string,
